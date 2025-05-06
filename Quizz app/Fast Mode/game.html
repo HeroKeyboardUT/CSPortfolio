@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="game.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="../Home/index.html">Home</a></li>
+        <li><a href="game.html">Restart Quiz</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </nav>
+    <div class="button">
+      <button class="btn" onclick="goBack()">Quay lại</button>
+    </div>
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+    <div class="container">
+      <div class="headup">
+        <div class="progress">
+          <h1>Question</h1>
+          <h1 class="progressshow">0/1</h1>
+        </div>
+
+        <div class="timer">
+          <h1>Time</h1>
+          <h1 class="timeshow">30</h1>
+        </div>
+        <div class="headupscore">
+          <h1 class="">Score</h1>
+          <h1 class="scoreshow">0</h1>
+        </div>
+      </div>
+
+      <div class="container-question">
+        <h1 class="question">Cau tra loi cho cau hoi nay la cai gi</h1>
+
+        <div class="choice">
+          <p class="answer">A</p>
+          <p class="atext">Answer for choice A</p>
+        </div>
+        <div class="choice">
+          <p class="answer">B</p>
+          <p class="atext">Answer for choice B</p>
+        </div>
+        <div class="choice">
+          <p class="answer">C</p>
+          <p class="atext">Answer for choice C</p>
+        </div>
+        <div class="choice">
+          <p class="answer">D</p>
+          <p class="atext">Answer for choice D</p>
+        </div>
+        <div class="task-bar-container">
+          <div class="task-bar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="popup hidden">
+      <div class="popup-content">
+        <h1>Quiz Finished!</h1>
+        <p class="popup-message"></p>
+        <button onclick="restartQuiz()">Restart</button>
+        <button onclick="goHome()">Home</button>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>&copy; 2024 Quiz Game. All rights reserved.</p>
+    </footer>
+    <script src="game.js"></script>
+  </body>
+</html>

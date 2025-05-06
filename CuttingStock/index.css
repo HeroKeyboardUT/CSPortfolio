@@ -1,0 +1,79 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+h1 {
+  text-align: center;
+}
+.stock,
+.products {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+.stock_table,
+.product_container {
+  margin-top: 10px;
+}
+.buttons {
+  margin: 20px 0;
+  text-align: center;
+}
+button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+/* CSS cho phần trực quan hóa kết quả */
+.stock_display {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.stock-visual {
+  border: 2px solid #333;
+  position: relative;
+  box-sizing: content-box;
+}
+.stock-visual-label {
+  text-align: center;
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+.product-visual {
+  position: absolute;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  font-size: 8px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Danh sách placements */
+.placements_output {
+  /* background-color: #111; */
+  border: 1px solid #fff;
+  padding: 10px;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+.placements_output h3 {
+  margin-top: 0;
+  font-size: 2rem;
+  text-align: center;
+}
+.placements_output ul {
+  list-style: none;
+  padding-left: 0;
+}
+.placements_output li {
+  padding: 3px 0;
+  border-bottom: 1px solid #333;
+}

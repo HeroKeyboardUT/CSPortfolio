@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Cutting Stock</title>
+    <style>
+      /* CSS cơ bản cho giao diện */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        text-align: center;
+      }
+      .stock,
+      .products {
+        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      .stock_table,
+      .product_container {
+        margin-top: 10px;
+      }
+      .buttons {
+        margin: 20px 0;
+        text-align: center;
+      }
+      button {
+        margin: 0 5px;
+        padding: 5px 10px;
+      }
+
+      /* CSS cho phần trực quan hóa kết quả */
+      .stock_display {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .stock-visual {
+        border: 2px solid #333;
+        position: relative;
+        box-sizing: content-box;
+      }
+      .stock-visual-label {
+        text-align: center;
+        font-size: 12px;
+        margin-bottom: 3px;
+      }
+      .product-visual {
+        position: absolute;
+        border: 1px solid #000;
+        box-sizing: border-box;
+        font-size: 8px;
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Dynamic Cutting Stock</h1>
+
+    <!-- Phần nhập thông tin Stocks -->
+    <div class="stock">
+      <div>
+        <label>
+          <input type="radio" name="stock_mode" value="same" checked />
+          All stocks have the same size
+        </label>
+        <label>
+          <input type="radio" name="stock_mode" value="different" />
+          Stocks have different sizes
+        </label>
+      </div>
+      <div class="stock_table">
+        <h2>Stocks</h2>
+        <input type="number" class="stock_num" placeholder="Number of stocks" />
+        <button class="generate_stock" onclick="generate_stocks()">
+          Generate Stocks
+        </button>
+        <button class="stock_modify">Add Stock</button>
+        <button class="stock_modify">Remove Stock</button>
+        <div class="stock_container"></div>
+      </div>
+    </div>
+
+    <!-- Phần nhập thông tin Products -->
+    <div class="products">
+      <h2>Products</h2>
+      <input
+        type="number"
+        class="product_num"
+        placeholder="Number of products"
+      />
+      <button class="generate_product" onclick="generate_products()">
+        Generate Products
+      </button>
+      <button class="product_modify">Add Product</button>
+      <button class="product_modify">Remove Product</button>
+      <div class="product_container"></div>
+    </div>
+
+    <!-- Các nút điều khiển -->
+    <div class="buttons">
+      <button class="random" onclick="random()">Random</button>
+      <button class="calculate" onclick="Solve()">Solve!</button>
+      <button class="display" onclick="displayResults()">
+        Display Results
+      </button>
+    </div>
+    <!-- Khu vực hiển thị trực quan kết quả -->
+    <div class="stock_display"></div>
+
+    <script>
+      // Lấy các phần tử cần thiết từ giao diện
+      const stockContainer = document.getElementsByClassName("stock_container");
+      const productContainer =
+        document.getElementsByClassName("product_container");
+      const stock_num = document.getElementsByClassName("stock_num");
+      const product_num = document.getElementsByClassName("product_num");
+      let placements = [];
+
+      // Hàm tạo input cho stocks theo chế độ đã chọn (same/different)
+      function generate_stocks() {
+        // Xóa kết quả hiển thị cũ
+        document.querySelector(".stock_display").innerHTML = "";
+        let num = parseInt(stock_num.item(0).value) || 0;
+        let mode = document.querySelector(
+          'input[name="stock_mode"]:checked'
+        ).value;
+        stockContainer.item(0).innerHTML = "";
+        if (mode === "same") {
+          // Nếu stocks có cùng size, chỉ hiển thị 1 bộ input
+          stockContainer.item(0).innerHTML = `<div class="stock">
+            <label for="stock">Stock (same for all stocks):</label>
+            <input type="number" class="stock_length" placeholder="length" name="stock_length" required>
+            <input type="number" class="stock_width" placeholder="width" name="stock_width" required>
+          </div>`;
+        } else {
+          // Nếu stocks có kích thước khác nhau, tạo input theo số lượng
+          for (let i = 0; i < num; i++) {
+            stockContainer.item(0).innerHTML += `<div class="stock">
+              <label for="stock">Stock ${i + 1}:</label>
+              <input type="number" class="stock_length" placeholder="length" name="stock_length" required>
+              <input type="number" class="stock_width" placeholder="width" name="stock_width" required>
+            </div>`;
+          }
+        }
+      }
+
+      // Hàm tạo input cho products
+      function generate_products() {
+        // Xóa kết quả hiển thị cũ
+        document.querySelector(".stock_display").innerHTML = "";
+        let num = parseInt(product_num.item(0).value) || 0;
+        productContainer.item(0).innerHTML = "";
+        for (let i = 0; i < num; i++) {
+          productContainer.item(0).innerHTML += `<div class="product">
+            <label for="product">Product ${i + 1}:</label>
+            <input type="number" class="product_length" placeholder="length" name="product_length" required>
+            <input type="number" class="product_width" placeholder="width" name="product_width" required>
+            <input type="number" class="product_quantity" placeholder="quantity" name="product_quantity" required>
+          </div>`;
+        }
+      }
+
+      // Hàm random: tạo số lượng và giá trị ngẫu nhiên phù hợp
+      function random() {
+        // Xóa kết quả hiển thị cũ
+        document.querySelector(".stock_display").innerHTML = "";
+        // Số lượng stocks và products nhỏ hơn để hiển thị gọn gàng (vd: 2-6)
+        stock_num.item(0).value = Math.floor(Math.random() * 5) + 2;
+        product_num.item(0).value = Math.floor(Math.random() * 5) + 2;
+
+        // Tạo lại input
+        generate_stocks();
+        generate_products();
+
+        // Xác định chế độ stocks
+        let mode = document.querySelector(
+          'input[name="stock_mode"]:checked'
+        ).value;
+        if (mode === "same") {
+          let stockLengthInput = document
+            .getElementsByClassName("stock_length")
+            .item(0);
+          let stockWidthInput = document
+            .getElementsByClassName("stock_width")
+            .item(0);
+          // Random kích thước cho stocks: khoảng 30-60 đơn vị
+          stockLengthInput.value = Math.floor(Math.random() * 30) + 30;
+          stockWidthInput.value = Math.floor(Math.random() * 30) + 30;
+        } else {
+          for (
+            let i = 0;
+            i < document.getElementsByClassName("stock_length").length;
+            i++
+          ) {
+            document.getElementsByClassName("stock_length").item(i).value =
+              Math.floor(Math.random() * 30) + 30;
+            document.getElementsByClassName("stock_width").item(i).value =
+              Math.floor(Math.random() * 30) + 30;
+          }
+        }
+        // Random cho products: kích thước khoảng 5-15 đơn vị, số lượng 1-3
+        for (
+          let i = 0;
+          i < document.getElementsByClassName("product_length").length;
+          i++
+        ) {
+          document.getElementsByClassName("product_length").item(i).value =
+            Math.floor(Math.random() * 10) + 5;
+          document.getElementsByClassName("product_width").item(i).value =
+            Math.floor(Math.random() * 10) + 5;
+          document.getElementsByClassName("product_quantity").item(i).value =
+            Math.floor(Math.random() * 3) + 1;
+        }
+      }
+
+      // Hàm giải bài toán cắt stock
+      function Solve() {
+        // Xóa các kết quả đặt trước
+        placements = [];
+        const stocks = [];
+        const products = [];
+        let mode = document.querySelector(
+          'input[name="stock_mode"]:checked'
+        ).value;
+
+        // Đọc dữ liệu stocks từ input
+        if (mode === "same") {
+          let numStocks = parseInt(stock_num.item(0).value) || 0;
+          let sLength = parseInt(
+            document.getElementsByClassName("stock_length").item(0).value
+          );
+          let sWidth = parseInt(
+            document.getElementsByClassName("stock_width").item(0).value
+          );
+          for (let i = 0; i < numStocks; i++) {
+            stocks.push({
+              length: sLength,
+              width: sWidth,
+              matrix: Array.from({ length: sLength }, () =>
+                Array(sWidth).fill(-1)
+              ),
+            });
+          }
+        } else {
+          const stockLengths = document.getElementsByClassName("stock_length");
+          const stockWidths = document.getElementsByClassName("stock_width");
+          for (let i = 0; i < stockLengths.length; i++) {
+            let sLength = parseInt(stockLengths.item(i).value);
+            let sWidth = parseInt(stockWidths.item(i).value);
+            stocks.push({
+              length: sLength,
+              width: sWidth,
+              matrix: Array.from({ length: sLength }, () =>
+                Array(sWidth).fill(-1)
+              ),
+            });
+          }
+        }
+
+        // Đọc dữ liệu products từ input
+        const prodLengths = document.getElementsByClassName("product_length");
+        const prodWidths = document.getElementsByClassName("product_width");
+        const prodQuantities =
+          document.getElementsByClassName("product_quantity");
+        for (let i = 0; i < prodLengths.length; i++) {
+          products.push({
+            length: parseInt(prodLengths.item(i).value),
+            width: parseInt(prodWidths.item(i).value),
+            quantity: parseInt(prodQuantities.item(i).value),
+          });
+        }
+
+        // Hàm kiểm tra có thể đặt sản phẩm tại vị trí (x, y)
+        function canPlace(stock, x, y, prodLength, prodWidth) {
+          if (
+            x + prodLength > stock.matrix.length ||
+            y + prodWidth > stock.matrix[0].length
+          )
+            return false;
+          for (let i = 0; i < prodLength; i++) {
+            for (let j = 0; j < prodWidth; j++) {
+              if (stock.matrix[x + i][y + j] !== -1) return false;
+            }
+          }
+          return true;
+        }
+
+        // Hàm đánh dấu vùng trong stock đã được sử dụng
+        function markStock(stock, x, y, prodLength, prodWidth) {
+          for (let i = 0; i < prodLength; i++) {
+            for (let j = 0; j < prodWidth; j++) {
+              stock.matrix[x + i][y + j] = 0;
+            }
+          }
+        }
+
+        // Sắp xếp products theo diện tích giảm dần
+        products.sort((a, b) => b.length * b.width - a.length * a.width);
+
+        // Đặt các products vào stocks
+        products.forEach((product) => {
+          while (product.quantity > 0) {
+            let placed = false;
+            for (let stock of stocks) {
+              let foundPosition = false;
+              for (let x = 0; x < stock.matrix.length; x++) {
+                for (let y = 0; y < stock.matrix[0].length; y++) {
+                  if (canPlace(stock, x, y, product.length, product.width)) {
+                    markStock(stock, x, y, product.length, product.width);
+                    placements.push({
+                      stockIndex: stocks.indexOf(stock),
+                      productSize: [product.length, product.width],
+                      position: [x, y],
+                    });
+                    product.quantity--;
+                    placed = true;
+                    foundPosition = true;
+                    break;
+                  }
+                }
+                if (foundPosition) break;
+              }
+              if (placed) break;
+            }
+            if (!placed) {
+              console.warn(
+                `Không thể đặt hết sản phẩm có kích thước ${product.length}x${product.width}. Còn lại ${product.quantity}`
+              );
+              break;
+            }
+          }
+        });
+        console.log("Sắp xếp hoàn thành:", placements);
+      }
+
+      // Hàm trực quan hóa kết quả (với scale nhỏ để hiển thị nhiều hơn trên cùng cửa sổ)
+      function displayResults() {
+        const displayContainer = document.querySelector(".stock_display");
+        // Xóa kết quả hiển thị cũ
+        displayContainer.innerHTML = "";
+        // Sử dụng scale nhỏ hơn (vd: 3)
+        const scale = 3;
+        let mode = document.querySelector(
+          'input[name="stock_mode"]:checked'
+        ).value;
+        let stocksCount =
+          mode === "same"
+            ? parseInt(stock_num.item(0).value) || 0
+            : document.getElementsByClassName("stock_length").length;
+
+        // Với mỗi stock, tạo giao diện trực quan
+        for (let i = 0; i < stocksCount; i++) {
+          let sLength, sWidth;
+          if (mode === "same") {
+            sLength = parseInt(
+              document.getElementsByClassName("stock_length").item(0).value
+            );
+            sWidth = parseInt(
+              document.getElementsByClassName("stock_width").item(0).value
+            );
+          } else {
+            sLength = parseInt(
+              document.getElementsByClassName("stock_length").item(i).value
+            );
+            sWidth = parseInt(
+              document.getElementsByClassName("stock_width").item(i).value
+            );
+          }
+          // Tạo wrapper để chứa label và khung stock
+          let stockWrapper = document.createElement("div");
+          stockWrapper.style.display = "flex";
+          stockWrapper.style.flexDirection = "column";
+          stockWrapper.style.alignItems = "center";
+
+          let label = document.createElement("div");
+          label.classList.add("stock-visual-label");
+          label.innerText = `Stock ${i + 1} (${sLength}x${sWidth})`;
+          stockWrapper.appendChild(label);
+
+          let stockDiv = document.createElement("div");
+          stockDiv.classList.add("stock-visual");
+          stockDiv.style.width = sWidth * scale + "px";
+          stockDiv.style.height = sLength * scale + "px";
+          stockDiv.style.position = "relative";
+          stockDiv.style.border = "2px solid #333";
+          stockDiv.style.boxSizing = "content-box";
+          stockWrapper.appendChild(stockDiv);
+          displayContainer.appendChild(stockWrapper);
+
+          // Vẽ các product đã được đặt trong stock này
+          placements.forEach((placement) => {
+            if (placement.stockIndex === i) {
+              let [pLength, pWidth] = placement.productSize;
+              let [x, y] = placement.position;
+              let prodDiv = document.createElement("div");
+              prodDiv.classList.add("product-visual");
+              prodDiv.style.width = pWidth * scale + "px";
+              prodDiv.style.height = pLength * scale + "px";
+              prodDiv.style.position = "absolute";
+              prodDiv.style.top = x * scale + "px";
+              prodDiv.style.left = y * scale + "px";
+              prodDiv.style.backgroundColor = getRandomColor();
+              prodDiv.style.border = "1px solid #000";
+              prodDiv.style.boxSizing = "border-box";
+              // Hiển thị kích thước của product bên trong khối
+              prodDiv.innerText = `${pLength}x${pWidth}`;
+              stockDiv.appendChild(prodDiv);
+            }
+          });
+        }
+      }
+
+      // Hàm tạo màu nền ngẫu nhiên cho product
+      function getRandomColor() {
+        const letters = "0123456789ABCDEF";
+        let color = "#";
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+    </script>
+  </body>
+</html>

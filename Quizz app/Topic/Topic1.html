@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <link rel="stylesheet" href="Topic.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="../Home/index.html">Home</a></li>
+        <!-- <li><a href="/FastMode/gametestmode.html">Restart Quiz</a></li> -->
+        <li><a href="#">Help</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <div class="note">
+        <div class="button">
+          <button class="btn" onclick="goBack()">Quay lại</button>
+        </div>
+
+        <script>
+          function goBack() {
+            window.history.back();
+          }
+        </script>
+        <div>
+          <h1 class="modechosen">Note: You have chosen Test Mode</h1>
+        </div>
+      </div>
+      <h1>Choose the topic you want</h1>
+
+      <div class="Topiccontainer"></div>
+    </div>
+    <footer class="footer">
+      <p>&copy; 2024 Quiz Game. All rights reserved.</p>
+    </footer>
+  </body>
+  <script src="Topic1.js"></script>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nhận diện chữ số viết tay</title>
+    <style>
+      body {
+        font-family: Arial;
+        text-align: center;
+        background-color: #222;
+        color: white;
+      }
+      canvas {
+        background-color: black;
+        border: 2px solid white;
+        touch-action: none;
+      }
+      .btn {
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Nhận diện chữ số viết tay</h1>
+    <canvas id="canvas" width="280" height="280"></canvas><br />
+    <button class="btn" onclick="clearCanvas()">Xóa</button>
+    <button class="btn" onclick="predict()">Dự đoán</button>
+    <h2 id="result">Kết quả: ?</h2>
+    <div id="probs"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="script.js"></script>
+  </body>
+  <script>
+    let canvas = document.getElementById("canvas");
+    let ctx = canvas.getContext("2d");
+    let drawing = false;
+    let model;
+
+    // Vẽ
+    canvas.addEventListener("mousedown", (e) => {
+      drawing = true;
+      ctx.beginPath();
+    });
+
+    canvas.addEventListener("mouseup", (e) => {
+      drawing = false;
+    });
+
+    canvas.addEventListener("mousemove", draw);
+
+    function draw(e) {
+      if (!drawing) return;
+      ctx.lineWidth = 18;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "white";
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    }
+
+    // Xóa canvas
+    function clearCanvas() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      document.getElementById("result").innerText = "Kết quả: ?";
+      document.getElementById("probs").innerHTML = "";
+    }
+
+    // Resize + xử lý ảnh
+    function getImageData() {
+      let img = ctx.getImageData(0, 0, 280, 280);
+      let tfImg = tf.browser.fromPixels(img, 1);
+      let resized = tf.image.resizeBilinear(tfImg, [28, 28]);
+      let tensor = resized.expandDims(0).toFloat().div(255.0);
+      return tensor;
+    }
+
+    // Dự đoán
+    async function predict() {
+      let tensor = getImageData();
+      let prediction = model.predict(tensor);
+      let probs = await prediction.data();
+      let max = Math.max(...probs);
+      let digit = probs.indexOf(max);
+
+      document.getElementById("result").innerText = `Kết quả: ${digit} (${(
+        max * 100
+      ).toFixed(2)}%)`;
+
+      // Hiển thị xác suất từng số
+      let html = "";
+      for (let i = 0; i < probs.length; i++) {
+        html += `Số ${i}: ${(probs[i] * 100).toFixed(2)}%<br>`;
+      }
+      document.getElementById("probs").innerHTML = html;
+    }
+
+    // Load model
+    (async function () {
+      model = await tf.loadLayersModel("web_model/model.json");
+      console.log("Model đã sẵn sàng!");
+    })();
+  </script>
+</html>

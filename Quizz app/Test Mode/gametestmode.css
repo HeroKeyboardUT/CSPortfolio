@@ -1,0 +1,254 @@
+:root {
+  background-color: aliceblue;
+  font-size: 62.5%;
+}
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: black;
+}
+
+.correct {
+  background-color: #4caf50 !important; /* Green for correct */
+  color: white;
+}
+
+.wrong {
+  background-color: #f44336 !important; /* Red for wrong */
+  color: white;
+}
+.navbar {
+  background-color: #333;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar ul li {
+  display: inline;
+}
+
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.6rem;
+  padding: 1rem 2rem;
+}
+
+.navbar ul li a:hover {
+  background-color: #56a5eb;
+  color: white;
+  border-radius: 0.5rem;
+}
+
+.container {
+  padding-top: 100px;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  /* align-items:center;  */
+  flex-direction: row;
+  overflow: auto;
+}
+
+.headup {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
+
+.progress,
+.headupscore {
+  display: flex;
+  flex-direction: column;
+}
+
+.progress h1,
+.headupscore h1 {
+  padding: 5px;
+  color: #56a5eb;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.question {
+  margin-left: 5vw;
+  margin-bottom: 10vh;
+  font-size: 2rem;
+  /* height: 50%; */
+}
+.question h1 {
+  padding-bottom: 15px;
+}
+
+.answer {
+  height: 100%;
+  background-color: #56a5eb;
+  padding: 1.5rem 2.5rem;
+}
+
+.choice {
+  display: flex;
+  width: 100%;
+  background-color: white;
+  border: 0.1rem solid rgb(119, 119, 147);
+  margin-bottom: 5px;
+  font-size: 1.8rem;
+}
+
+.choice:hover {
+  cursor: pointer;
+  box-shadow: 0 0.4rem 1.4rem 0 rgba(86, 185, 235, 0.5);
+  transform: translateY(-0.1rem);
+  transition: transform 150ms;
+}
+
+.choice.selected {
+  background-color: #cce5ff;
+  border-color: #007bff;
+  color: #004085;
+}
+.atext {
+  padding: 1.5rem;
+}
+
+.footer {
+  /* position: absolute; */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  background-color: #333;
+  color: white;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 1.4rem;
+  color: white;
+}
+
+.task-bar-container {
+  width: 50%;
+  height: 2rem;
+  background-color: #e0e0e0;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.task-bar {
+  height: 100%;
+  width: 0;
+  background-color: #4caf50;
+  border-radius: 1rem;
+  transition: width 0.5s ease-in-out;
+}
+
+.submit-btn {
+  background-color: #56a5eb;
+  color: white;
+  padding: 1rem 3rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  height: 50px;
+  margin: 0 auto;
+  position: fixed;
+  top: 30%;
+  right: 50px;
+}
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 5vh 5vw;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.popup.hidden {
+  display: none;
+}
+.popup-content {
+  text-align: center;
+}
+.popup h1 {
+  padding: 5px;
+  color: #56a5eb;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.popup p {
+  padding-bottom: 20px;
+  color: #56a5eb;
+  font-size: 3rem;
+  text-align: center;
+}
+
+.popup button {
+  padding: 1rem 2rem;
+  margin: 0 10px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.timer h1 {
+  color: #56a5eb;
+  font-size: 3rem;
+  text-align: center;
+}
+.timer {
+  position: fixed;
+  top: 30%;
+  left: 50px;
+}
+.btn {
+  font-size: 1.8rem;
+  padding: 1rem 4rem;
+  text-align: center;
+  border: 0.1rem solid #56a5eb;
+  text-decoration: none;
+  color: #56a5eb;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button {
+  padding-top: 50px;
+  padding-left: 30px;
+  padding-bottom: 0;
+}
+.btn:hover {
+  cursor: pointer;
+  box-shadow: 0 0.4rem 1.4rem 0 rgba(86, 185, 235, 0.5);
+  transform: translateY(-0.1rem);
+  transition: transform 150ms;
+}
+
+.btn[disabled]:hover {
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.quiz-container {
+  width: 70%;
+}
