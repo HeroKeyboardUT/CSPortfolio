@@ -261,6 +261,16 @@ nav a.active {
   z-index: 2; /* Ensure it stays above the rain
 effect */
 }
+
+.project__side__item__link {
+  color: #6e6ec8;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+.project__side__item__link:hover {
+  color: #a7a7a9;
+}
 .matrix-text::before {
   content: attr(data-text);
   position: absolute;
