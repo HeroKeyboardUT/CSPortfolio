@@ -1,3 +1,4 @@
+/* ===== GLOBAL STYLES ===== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -13,14 +14,12 @@ body {
   background-color: #03051d;
   margin: 0;
   padding: 0;
-  /* height: 5rem; */
   display: flex;
   flex-direction: column;
 
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(3px);
   background-image: url("../image/cyber.png");
   background-size: cover;
-  background-size: 100%;
   background-clip: border-box;
 }
 
@@ -34,10 +33,11 @@ p {
   color: white;
   font-family: "Rajdhani", sans-serif;
 }
+
+/* ===== HEADER STYLES ===== */
 .header {
   background-color: #03051d;
   margin: 0 auto;
-  /* position: fixed; */
   margin-top: 2rem;
   z-index: 1000;
   width: 70%;
@@ -59,11 +59,10 @@ p {
   align-items: center;
   font-size: 1.2rem;
   padding: 1rem;
-  /* border-left: 0.2rem solid #a7a7a9;*/
   border-top: 0.2rem solid #a7a7a9;
   margin-right: 3rem;
-  /* padding-left: 3rem; */
 }
+
 .header h1 {
   color: #a7a7a9;
   align-self: center;
@@ -73,11 +72,13 @@ p {
   padding-right: 1rem;
   border-right: 0.2rem solid #a7a7a9;
 }
+
 .nav a {
   color: white;
   text-decoration: none;
   border-bottom: 0.2rem solid transparent;
 }
+
 .nav a:hover,
 nav a.active {
   transition: 0.5s ease;
@@ -85,9 +86,8 @@ nav a.active {
   border-bottom: 0.2rem solid #a7a7a9;
 }
 
-/*----------- Hero section--------------*/
+/* ===== HERO SECTION STYLES ===== */
 .hero {
-  /* background-color: #03051d; */
   background: rgba(10, 10, 30, 0.5);
   backdrop-filter: blur(10px);
   border-radius: 10px;
@@ -103,12 +103,13 @@ nav a.active {
   border-bottom: #a7a7a9 2px solid;
   border-top: 0.2rem solid #a7a7a9;
   animation: fadeIn 1s ease-in-out;
-  margin-bottom: 15rem;
+  margin-bottom: 5rem;
 }
 
 .hero__pic {
   width: 40%;
 }
+
 .hero__pic img {
   position: relative;
   width: 100%;
@@ -136,9 +137,11 @@ nav a.active {
   margin: 0;
   padding-left: 3.75rem;
 }
+
 .hero__content span {
   color: #6e6ec8;
 }
+
 .hero__content h3 {
   font-size: 2.25rem;
   margin: 0;
@@ -154,7 +157,6 @@ nav a.active {
 .hero__content__list {
   border-top: 0.2rem solid #a7a7a9;
   padding-top: 1.5rem;
-  /* border-left: #a7a7a9 2px solid; */
   margin-left: 7.5rem;
 }
 
@@ -166,10 +168,9 @@ nav a.active {
 .hero__content__item li {
   margin-bottom: 0.75rem;
 }
-/* ------------------------------------ */
 
+/* ===== PROJECT SECTION STYLES ===== */
 .project {
-  /* background-color: #03051d; */
   background: rgba(10, 10, 30, 0.5);
   backdrop-filter: blur(10px);
   border-radius: 10px;
@@ -179,7 +180,7 @@ nav a.active {
   height: auto;
   width: 70%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   border-bottom: 0.2rem solid #a7a7a9;
   animation: fadeIn 1s ease-in-out;
@@ -211,6 +212,7 @@ nav a.active {
   padding-left: 1.5rem;
   text-decoration: none;
 }
+
 .project__side__item:hover {
   background-color: #171730;
   transition: 0.5s ease;
@@ -221,6 +223,7 @@ nav a.active {
   color: #a7a7a9;
   margin-bottom: 0.5rem;
 }
+
 .project__side__item__content {
   display: flex;
   flex-direction: column;
@@ -228,10 +231,10 @@ nav a.active {
   margin-left: 1rem;
   padding: 2px;
 }
+
 .project__side__item p {
-  font-size: 0.75rem;
+  font-size: 1rem;
   color: white;
-  /* border-left: 0.2rem solid #a7a7a9; */
   margin: 3px;
   padding-left: 1rem;
 }
@@ -250,27 +253,160 @@ nav a.active {
 .project__introduction p {
   font-size: 1rem;
   color: white;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  padding-left: 1rem;
 }
 
+.project__side__item__link:hover {
+  color: #6e6ec8;
+}
+
+/* ===== SKILLS SECTION STYLES ===== */
+.skills-container {
+  margin-top: 2rem;
+}
+
+.skills-container h2 {
+  color: #6e6ec8;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.skill-category {
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+  border-left: 0.2rem solid #a7a7a9;
+}
+
+.skill-category h3 {
+  color: #a7a7a9;
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #6e6ec8;
+  padding-bottom: 0.5rem;
+  margin-left: -0.5rem;
+}
+
+.skill-description {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+}
+
+.skill-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.skill-list li {
+  color: white;
+  margin-bottom: 0.5rem;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.skill-list li:before {
+  content: "•";
+  color: #6e6ec8;
+  position: absolute;
+  left: 0;
+}
+
+/* ===== EDUCATION SECTION STYLES ===== */
+.education-section {
+  margin-top: 3rem;
+}
+
+.education-section h2 {
+  color: #6e6ec8;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.education-item {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  border-left: 0.2rem solid #a7a7a9;
+}
+
+.education-item h3 {
+  color: #a7a7a9;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  margin-left: -0.5rem;
+}
+
+.education-date {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-right: #6e6ec8 0.1rem solid;
+  border-top: #6e6ec8 0.1rem solid;
+}
+
+.education-gpa {
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-left: #6e6ec8 0.1rem solid;
+  border-bottom: #6e6ec8 0.1rem solid;
+}
+
+.education-description {
+  font-size: 1rem;
+  color: white;
+  line-height: 1.6;
+  padding-left: 1rem;
+  border-left: 0.2rem solid #a7a7a9;
+}
+
+/* ===== CONTACT CTA STYLES ===== */
+.contact-cta {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background: rgba(110, 110, 200, 0.1);
+  border: 1px solid #6e6ec8;
+  border-radius: 0.5rem;
+  text-align: center;
+  border-left: 0.2rem solid #a7a7a9;
+}
+
+.contact-cta p {
+  margin-bottom: 1rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #6e6ec8;
+  color: white;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  background: #a7a7a9;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== MATRIX TEXT EFFECT ===== */
 .matrix-text {
   color: #0f0;
   font-size: 80px;
   font-family: monospace;
   position: relative;
   text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
-  z-index: 2; /* Ensure it stays above the rain
-effect */
+  z-index: 2;
 }
 
-.project__side__item__link {
-  color: #6e6ec8;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-.project__side__item__link:hover {
-  color: #a7a7a9;
-}
 .matrix-text::before {
   content: attr(data-text);
   position: absolute;
@@ -301,13 +437,12 @@ effect */
   }
 }
 
-/* Footer styles */
+/* ===== FOOTER STYLES ===== */
 .footer {
   background: rgba(10, 10, 30, 0.9);
   backdrop-filter: blur(10px);
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-
   margin-top: 4rem;
   padding: 2rem;
 }
@@ -324,6 +459,11 @@ effect */
 
 .footer__section {
   flex: 1;
+}
+
+.footer__section h3 {
+  color: #6e6ec8;
+  margin-bottom: 1rem;
 }
 
 .social-links {
@@ -348,22 +488,51 @@ effect */
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Responsive design for footer */
-@media (max-width: 768px) {
-  .footer__content {
-    flex-direction: column;
-    gap: 2rem;
+/* ===== RESPONSIVE DESIGN ===== */
+/* Large screens (1200px and below) */
+@media screen and (max-width: 1200px) {
+  .project {
+    width: 85%;
+  }
+
+  .project__side {
+    padding-right: 2rem;
+  }
+
+  .project__introduction {
+    padding-left: 2rem;
   }
 }
 
-/* Tablet trở xuống (<= 1024px) */
+/* Medium screens (1024px and below) */
 @media screen and (max-width: 1024px) {
+  .header {
+    width: 90%;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .header h1 {
+    border-bottom: 0.2rem solid #a7a7a9;
+    border-right: 0.2rem solid #a7a7a9;
+  }
+
+  .nav {
+    width: 100%;
+    margin: 1rem 0 0 0;
+    justify-content: center;
+    border-top: none;
+    flex-wrap: wrap;
+  }
+
+  .nav__item {
+    margin: 0 1rem;
+  }
+
   .hero {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
     gap: 2rem;
+    width: 85%;
   }
 
   .hero__pic {
@@ -379,7 +548,7 @@ effect */
     width: 100%;
     margin-left: 0;
     border-left: none;
-    align-items: center;
+    align-items: LEFT;
   }
 
   .hero__content h2,
@@ -392,12 +561,11 @@ effect */
   .hero__content__list {
     margin-left: 0;
     padding-top: 1rem;
-    border-top: 0.2rem solid #a7a7a9;
   }
 
   .hero__content__item {
-    margin-left: 0;
-    border-left: none;
+    margin-left: 1rem;
+    border-left: 0.2rem solid #a7a7a9;
   }
 
   .hero__content li {
@@ -415,13 +583,73 @@ effect */
   .hero__content p {
     font-size: 1.1rem;
   }
+
+  .project {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .project__side {
+    width: 100%;
+    border-right: none;
+    border-bottom: 0.2rem solid #a7a7a9;
+    padding-right: 0;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .project__introduction {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  .project__side__item p {
+    font-size: 0.9rem;
+  }
 }
 
-/* Mobile nhỏ (<= 600px) */
+/* Small screens (768px and below) */
+@media screen and (max-width: 768px) {
+  .header {
+    width: 95%;
+  }
+
+  .nav {
+    padding: 0.5rem;
+  }
+
+  .nav__item {
+    margin: 0.5rem;
+  }
+
+  .project__side__item h3 {
+    font-size: 0.9rem;
+  }
+
+  .project__side__item p {
+    font-size: 0.85rem;
+  }
+
+  .footer__content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+/* Very small screens (600px and below) */
 @media screen and (max-width: 600px) {
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .nav {
+    font-size: 1rem;
+  }
+
   .hero {
     padding: 1rem;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
+    width: 90%;
   }
 
   .hero__pic {
@@ -439,5 +667,27 @@ effect */
   .hero__content p,
   .hero__content li {
     font-size: 1rem;
+  }
+
+  .project {
+    padding: 1.5rem;
+    width: 90%;
+  }
+
+  .project__side h2,
+  .project__introduction h2 {
+    font-size: 1.5rem;
+  }
+
+  .project__side__item {
+    padding-left: 1rem;
+  }
+
+  .project__side__item__content {
+    margin-left: 0.5rem;
+  }
+
+  .matrix-text {
+    font-size: 40px;
   }
 }
