@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Cutting Stock</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <h1>Dynamic Cutting Stock</h1>
+    <!-- Nhập Stocks -->
+    <div class="stock">
+      <div>
+        <label>
+          <input type="radio" name="stock_mode" value="same" checked />
+          All stocks have the same size
+        </label>
+        <label>
+          <input type="radio" name="stock_mode" value="different" />
+          Stocks have different sizes
+        </label>
+      </div>
+      <div class="stock_table">
+        <h2>Stocks</h2>
+        <input type="number" class="stock_num" placeholder="Number of stocks" />
+        <button class="generate_stock" onclick="generate_stocks()">
+          Generate Stocks
+        </button>
+        <button class="stock_modify">Add Stock</button>
+        <button class="stock_modify">Remove Stock</button>
+        <div class="stock_container"></div>
+      </div>
+    </div>
+    <!-- Nhập Products -->
+    <div class="products">
+      <h2>Products</h2>
+      <input
+        type="number"
+        class="product_num"
+        placeholder="Number of products"
+      />
+      <button class="generate_product" onclick="generate_products()">
+        Generate Products
+      </button>
+      <button class="product_modify">Add Product</button>
+      <button class="product_modify">Remove Product</button>
+      <div class="product_container"></div>
+    </div>
+    <!-- Các nút điều khiển -->
+    <div class="buttons">
+      <button class="random" onclick="random()">Random</button>
+      <button class="calculate" onclick="Solve()">Solve!</button>
+      <button class="display" onclick="displayResults()">
+        Display Results
+      </button>
+    </div>
+    <!-- Khu vực trực quan hiển thị stocks & placements -->
+    <div class="stock_display"></div>
+    <div class="placements_output" id="placements_output">
+      <h3>Placements</h3>
+      <ul id="placements_list"></ul>
+    </div>
+    <script src="cut.js"></script>
+  </body>
+</html>

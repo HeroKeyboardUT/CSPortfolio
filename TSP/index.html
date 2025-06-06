@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TSP Solver</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #03051d;
+      }
+      .header {
+        margin: 2vw auto;
+        /* position: fixed; */
+        z-index: 1000;
+        width: 70%;
+        height: 3vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 0.2vw solid #a7a7a9;
+        border-right: 0.2vw solid #a7a7a9;
+        margin-bottom: 3vw;
+
+        animation: fadeIn 1s ease-in-out;
+      }
+
+      .nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 45%;
+        align-items: center;
+        font-size: 1.2vw;
+        padding: 1vw;
+        /* border-left: 0.2vw solid #a7a7a9;*/
+        border-top: 0.2vw solid #a7a7a9;
+        margin-right: 3vw;
+        padding-left: 3vw;
+      }
+      .header h1 {
+        color: #a7a7a9;
+        align-self: center;
+        font-size: 2vw;
+        margin-left: 2vw;
+        border-bottom: 0.2vw solid #a7a7a9;
+        padding-right: 1vw;
+        border-right: 0.2vw solid #a7a7a9;
+      }
+      .nav a {
+        color: white;
+        text-decoration: none;
+        border-bottom: 0.2vw solid transparent;
+      }
+      .nav a:hover,
+      nav a.active {
+        transition: 0.5s ease;
+        color: #a7a7a9;
+        border-bottom: 0.2vw solid #a7a7a9;
+      }
+      h1 {
+        color: #b0aeae;
+        font-size: 2.5em;
+      }
+      h2 {
+        color: #b0aeae;
+        font-size: 1.25em;
+        padding-top: 0;
+      }
+
+      #graphContainer {
+        width: 700px;
+        height: 700px;
+        margin: 20px auto;
+        border: 2px solid #ddd;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        position: relative;
+      }
+
+      textarea {
+        width: 90%;
+        height: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        font-size: 1.1em;
+        border-radius: 8px;
+        border: 1px solid #000000;
+        background-color: #a7a7a9;
+        max-height: 500px;
+        min-width: 500px;
+      }
+      textarea::placeholder {
+        color: #2b2828;
+        font-size: 1rem;
+      }
+      #startCity {
+        padding: 10px;
+        width: 200px;
+        font-size: 1.1em;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        background-color: #a7a7a9;
+      }
+      #startCity::placeholder {
+        color: #2b2828;
+      }
+      span {
+        color: #ff0000;
+      }
+      button {
+        padding: 12px 20px;
+        font-size: 1.1em;
+        border-radius: 8px;
+        cursor: pointer;
+        border: none;
+        margin: 10px;
+        color: white;
+        background-color: #007bff;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #result {
+        font-size: 1.2em;
+        margin-top: 20px;
+        font-weight: bold;
+        color: #bbb6b6;
+      }
+      .btnholder {
+        padding: 1vw;
+        width: 70%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 0.2vw solid #a7a7a9;
+        border-top: 0.2vw solid #a7a7a9;
+      }
+      .note {
+        width: 70%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        color: #2b2828;
+      }
+      .hero_note {
+        width: 70%;
+        height: 70%;
+        margin: auto auto;
+        display: flex;
+        justify-content: center;
+        color: #2b2828;
+        text-align: left;
+        flex-direction: column;
+        margin-left: 1vw;
+        padding: 2vh 1vw;
+        border: 0.2vw solid #a7a7a9;
+        size: fixed;
+      }
+      .hero_note h2 {
+        font-size: 1.2em;
+        color: #b0aeae;
+      }
+      .hero_note h1 {
+        margin: 0;
+        color: #b0aeae;
+      }
+      .hero {
+        width: 70%;
+        display: flex;
+        /* height: 60vh; */
+        justify-content: center;
+        flex-direction: row;
+        margin: 0 auto;
+        padding: 5vh;
+      }
+      .matrix-text {
+        color: #0f0;
+        font-size: 80px;
+        font-family: monospace;
+        position: relative;
+        text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0;
+        z-index: 2; /* Ensure it stays above the rain
+effect */
+      }
+      .matrix-text::before {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        animation: glitch 2s infinite;
+        clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        transform: translate(-2px, -2px);
+        color: #0f0;
+        text-shadow: 0 0 5px #0f0, 0 0 15px #0f0;
+      }
+
+      @keyframes glitch {
+        0%,
+        100% {
+          clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+          transform: translate(0);
+        }
+        33% {
+          clip-path: polygon(0 0, 100% 0, 100% 15%, 0 15%);
+          transform: translate(-5px, -5px);
+        }
+        66% {
+          clip-path: polygon(0 85%, 100% 85%, 100% 100%, 0 100%);
+          transform: translate(5px, 5px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <body class="matrix-bg">
+        <div class="matrix-container">
+          <h1 class="matrix-text" data-text="HIEU DZ 123">HIEU DZ 123</h1>
+        </div>
+      </body>
+      <nav class="nav">
+        <div class="nav__item">
+          <a href="../index.html">Home</a>
+        </div>
+        <div class="nav__item">
+          <a href="#">Skills</a>
+        </div>
+        <div class="nav__item">
+          <a href="#">Education</a>
+        </div>
+        <div class="nav__item">
+          <a href="#">Experience</a>
+        </div>
+        <div class="nav__item">
+          <a class="active" href="#">Projects</a>
+        </div>
+      </nav>
+    </div>
+    <h1>Traveling Salesman Problem Solver</h1>
+    <div class="hero">
+      <textarea
+        id="matrixInput"
+        rows="15"
+        placeholder="Enter adjacency matrix here..."
+      ></textarea>
+      <div class="hero_note">
+        <h1>Note:</h1>
+        <h2>
+          This solver bases on brute-force algorithm so it would give an
+          <span>absolutely correct</span> answer , but as the problem's growth
+          may result in high computational complexity, the size of matrix is
+          recommended to be less than <span>20</span>.
+        </h2>
+      </div>
+    </div>
+
+    <div class="btnholder">
+      <input type="text" id="startCity" placeholder="Start City (A, B, C...)" />
+      <button onclick="generateAndDisplayMatrix()">
+        Generate Random Matrix
+      </button>
+      <button onclick="solveTSP()">Solve TSP</button>
+      <button onclick="showOptimalRoute()">Show Optimal Route</button>
+      <button onclick="resetGraph()">Reset Graph</button>
+    </div>
+
+    <p id="result"></p>
+    <div class="note">
+      <h2>
+        The diagram below demonstrates the graph and its weights based on the
+        matrix, the optimal route will be highlighted in red when you click on
+        <span>"Show Optimal Route"</span> button.
+      </h2>
+    </div>
+    <div id="graphContainer"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      let ans = [];
+      let visited = [];
+      let best_cost;
+      let allmin;
+      let result;
+      let nodes = [];
+      let matrix = [];
+
+      function firstMin(Arr, numVertex, a) {
+        let min = Infinity;
+        for (let k = 0; k < numVertex; k++) {
+          if (a !== k && Arr[a][k] < min) {
+            min = Arr[a][k];
+          }
+        }
+        return min;
+      }
+
+      function secondMin(Arr, numVertex, a) {
+        let first = Infinity,
+          second = Infinity;
+        for (let j = 0; j < numVertex; j++) {
+          if (a === j) continue;
+          if (Arr[a][j] < first) {
+            second = first;
+            first = Arr[a][j];
+          } else if (Arr[a][j] < second && Arr[a][j] !== first) {
+            second = Arr[a][j];
+          }
+        }
+        return second;
+      }
+
+      function TSPRecursive(Arr, bound, total_cost, level, path, numVertex) {
+        if (level === numVertex) {
+          if (Arr[path[level - 1]][path[0]] !== 0) {
+            let cost = total_cost + Arr[path[level - 1]][path[0]];
+            if (cost < best_cost) {
+              ans = path.slice();
+              ans[numVertex] = path[0];
+              best_cost = cost;
+            }
+          }
+          return;
+        }
+
+        for (let i = 0; i < numVertex; i++) {
+          if (Arr[path[level - 1]][i] !== 0 && !visited[i]) {
+            let temp = bound;
+            total_cost += Arr[path[level - 1]][i];
+
+            let first = firstMin(Arr, numVertex, path[level - 1]);
+            let second = secondMin(Arr, numVertex, path[level - 1]);
+            if (level === 1) bound -= (first + firstMin(Arr, numVertex, i)) / 2;
+            else bound -= (second + firstMin(Arr, numVertex, i)) / 2;
+
+            if (bound + total_cost < best_cost) {
+              path[level] = i;
+              visited[i] = true;
+              TSPRecursive(Arr, bound, total_cost, level + 1, path, numVertex);
+            }
+
+            total_cost -= Arr[path[level - 1]][i];
+            bound = temp;
+            visited[i] = false;
+          }
+        }
+      }
+
+      function Traveling(Arr, numVertex, Start) {
+        let st = Start.charCodeAt(0) - 65;
+        let path = new Array(numVertex + 1).fill(-1);
+        visited = new Array(numVertex).fill(false);
+        best_cost = Infinity;
+        allmin = Infinity;
+
+        for (let i = 0; i < numVertex; i++) {
+          for (let j = 0; j < numVertex; j++) {
+            if (Arr[i][j] !== 0 && Arr[i][j] < allmin) {
+              allmin = Arr[i][j];
+            }
+          }
+        }
+
+        let bound = 0;
+        for (let i = 0; i < numVertex; i++) {
+          bound += firstMin(Arr, numVertex, i) + secondMin(Arr, numVertex, i);
+        }
+        bound = Math.floor(bound / 2);
+
+        visited[st] = true;
+        path[0] = st;
+
+        TSPRecursive(Arr, bound, 0, 1, path, numVertex);
+
+        let answer = "";
+        for (let i = 0; i <= numVertex; i++) {
+          answer += String.fromCharCode(ans[i] + 65);
+          if (i < numVertex) answer += " ";
+        }
+        console.log(answer);
+        return answer;
+      }
+
+      function drawGraph(matrix) {
+        // Clear previous SVG content
+        d3.select("#graphContainer").selectAll("*").remove();
+
+        const width = 700,
+          height = 700;
+        const svg = d3
+          .select("#graphContainer")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        const numVertex = matrix.length;
+        const radius = 20;
+        let max = 0;
+        for (let i = 0; i < numVertex; i++) {
+          for (let j = 0; j < numVertex; j++) {
+            if (matrix[i][j] > max) max = matrix[i][j];
+          }
+        }
+        let MatrixDraw = matrix;
+        for (i = 0; i < numVertex; i++) {
+          for (j = 0; j < numVertex; j++) {
+            MatrixDraw[i][j] = Math.floor((matrix[i][j] / max) * 350);
+          }
+        }
+
+        const nodes = d3.range(numVertex).map((d) => ({ id: d }));
+        const edges = [];
+        for (let i = 0; i < numVertex; i++) {
+          for (let j = i + 1; j < numVertex; j++) {
+            if (matrix[i][j] !== 0)
+              edges.push({
+                source: i,
+                target: j,
+                weight: MatrixDraw[i][j],
+                originalWeight: matrix[i][j], // Store the original weight
+              });
+          }
+        }
+        const simulation = d3
+          .forceSimulation(nodes)
+          .force(
+            "link",
+            d3
+              .forceLink(edges)
+              .distance((d) => d.weight)
+              .strength(1)
+          )
+          .force("charge", d3.forceManyBody().strength(-300))
+          .force("center", d3.forceCenter(width / 2, height / 2))
+          .on("tick", ticked);
+
+        function ticked() {
+          svg.selectAll(".edge").remove();
+          svg.selectAll(".node").remove();
+          svg.selectAll(".label").remove();
+          svg.selectAll(".weight-label").remove(); // Clear any existing weight labels
+
+          svg
+            .selectAll(".edge")
+            .data(edges)
+            .enter()
+            .append("line")
+            .attr("class", "edge")
+            .attr("x1", (d) => d.source.x)
+            .attr("y1", (d) => d.source.y)
+            .attr("x2", (d) => d.target.x)
+            .attr("y2", (d) => d.target.y)
+            .style("stroke", "lightgray")
+            .style("stroke-width", 1);
+
+          svg
+            .selectAll(".node")
+            .data(nodes)
+            .enter()
+            .append("circle")
+            .attr("class", "node")
+            .attr("r", radius)
+            .attr("cx", (d) => d.x)
+            .attr("cy", (d) => d.y)
+            .style("fill", "skyblue")
+            .style("transition", "fill 0.3s ease")
+            .on("mouseover", function () {
+              d3.select(this).style("fill", "orange");
+            })
+            .on("mouseout", function () {
+              d3.select(this).style("fill", "skyblue");
+            });
+
+          svg
+            .selectAll(".label")
+            .data(nodes)
+            .enter()
+            .append("text")
+            .attr("class", "label")
+            .attr("x", (d) => d.x)
+            .attr("y", (d) => d.y)
+            .attr("dy", ".45em")
+            .attr("text-anchor", "middle")
+            .text((_, i) => String.fromCharCode(65 + i));
+
+          // Add weight labels
+          svg
+            .selectAll(".weight-label")
+            .data(edges)
+            .enter()
+            .append("text")
+            .attr("class", "weight-label")
+            .attr("x", (d) => (d.source.x + d.target.x) / 2)
+            .attr("y", (d) => (d.source.y + d.target.y) / 2)
+            .attr("dy", -5) // Slight offset to avoid overlap with the line
+            .attr("text-anchor", "middle")
+            .style("fill", "white")
+            .style("font-size", "12px")
+            .text((d) => d.originalWeight); // Display the original weight value
+        }
+      }
+
+      function showOptimalRoute() {
+        if (!result) {
+          alert("Please solve the TSP first.");
+          return;
+        }
+
+        const path = result.split(" ").map((city) => city.charCodeAt(0) - 65);
+        const edges = [];
+        for (let i = 0; i < path.length - 1; i++) {
+          edges.push({ source: path[i], target: path[i + 1] });
+        }
+        edges.push({ source: path[path.length - 1], target: path[0] });
+        d3.selectAll(".edge").style("stroke", "lightgray");
+        d3.selectAll(".node").style("fill", "skyblue");
+
+        d3.selectAll(".edge")
+          .filter((d) =>
+            edges.some(
+              (edge) =>
+                (d.source.id === edge.source && d.target.id === edge.target) ||
+                (d.source.id === edge.target && d.target.id === edge.source)
+            )
+          )
+          .style("stroke", "red");
+        d3.selectAll(".weight-label")
+          .filter(
+            (d) =>
+              !edges.some(
+                (edge) =>
+                  (d.source.id === edge.source &&
+                    d.target.id === edge.target) ||
+                  (d.source.id === edge.target && d.target.id === edge.source)
+              )
+          )
+          .remove();
+        d3.selectAll(".edge")
+          .filter(
+            (d) =>
+              !edges.some(
+                (edge) =>
+                  (d.source.id === edge.source &&
+                    d.target.id === edge.target) ||
+                  (d.source.id === edge.target && d.target.id === edge.source)
+              )
+          )
+          .remove();
+        d3.selectAll(".node")
+          .filter((d) => path.includes(d.id))
+          .style("fill", "red");
+      }
+
+      function solveTSP() {
+        const matrixInput = document.getElementById("matrixInput").value;
+        const startCity = document.getElementById("startCity").value.trim();
+        console.log(startCity);
+        if (!matrixInput || !startCity) {
+          alert("Please enter an adjacency matrix and a start city.");
+          return;
+        }
+
+        const rows = matrixInput
+          .trim()
+          .split("\n")
+          .map((row) => row.trim().split(" ").map(Number));
+        const numVertices = rows.length;
+
+        if (
+          startCity.length !== 1 ||
+          !/^[A-Z]$/.test(startCity) ||
+          startCity.charCodeAt(0) - 65 >= numVertices
+        ) {
+          alert("Please enter a valid start city (A, B, C...).");
+          return;
+        }
+
+        result = Traveling(rows, numVertices, startCity);
+        document.getElementById(
+          "result"
+        ).textContent = `Optimal Route: ${result} with cost: ${best_cost}`;
+        drawGraph(rows);
+      }
+
+      function resetGraph() {
+        drawGraph(matrix);
+        document.getElementById("result").textContent = "";
+      }
+      function generateRandomMatrix(size) {
+        const matrix = Array.from({ length: size }, () => Array(size).fill(0));
+
+        for (let i = 0; i < size; i++) {
+          for (let j = i + 1; j < size; j++) {
+            // Generate a random distance between 1 and 100 (adjust range as needed)
+            const distance = Math.floor(Math.random() * 100) + 1;
+            matrix[i][j] = distance;
+            matrix[j][i] = distance; // Ensure symmetry
+          }
+        }
+
+        return matrix;
+      }
+
+      // Function to display the generated matrix in the input field
+      function displayMatrix(matrix) {
+        const matrixString = matrix.map((row) => row.join(" ")).join("\n");
+        document.getElementById("matrixInput").value = matrixString;
+      }
+
+      // Button function to generate and display the matrix
+      function generateAndDisplayMatrix() {
+        const size = parseInt(
+          prompt("Enter the number of cities (matrix size):")
+        );
+        if (isNaN(size) || size <= 1) {
+          alert("Please enter a valid number greater than 1.");
+          return;
+        }
+
+        const matrix = generateRandomMatrix(size);
+        displayMatrix(matrix);
+      }
+    </script>
+  </body>
+</html>

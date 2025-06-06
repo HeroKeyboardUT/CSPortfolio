@@ -1,0 +1,6 @@
+__SYSCALL(0, sys_listsyscall)
+__SYSCALL(17, sys_memmap)
+__SYSCALL(101, sys_killall)
+__SYSCALL(109, sys_log)
+__SYSCALL(404, sys_sleep)
+__SYSCALL(440, sys_xxxhandler)

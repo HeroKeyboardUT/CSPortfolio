@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "mem.h": "c",
+        "mm.h": "c",
+        "syscall.h": "c",
+        "libmem.h": "c",
+        "stdio.h": "c",
+        "pthread.h": "c",
+        "unistd.h": "c",
+        "common.h": "c",
+        "queue.h": "c",
+        "os-cfg.h": "c",
+        "_syscall.h": "c"
+    }
+}

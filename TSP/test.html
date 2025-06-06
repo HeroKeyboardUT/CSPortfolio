@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TSP Solver</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+
+      #graphContainer {
+        width: 900px;
+        height: 900px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+      }
+
+      textarea {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+      }
+
+      #startCity {
+        padding: 10px;
+        width: 200px;
+      }
+
+      button {
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      #result {
+        font-size: 18px;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Traveling Salesman Problem Solver</h1>
+    <textarea
+      id="matrixInput"
+      rows="10"
+      placeholder="Enter adjacency matrix here..."
+    ></textarea
+    ><br />
+    <input type="text" id="startCity" placeholder="Start City (A, B, C...)" />
+    <button onclick="solveTSP()">Solve TSP</button>
+
+    <!-- <p id="currentCost">Best Cost so far: </p>
+    <p id="currentPath">Current Path being explored: </p>   -->
+
+    <p id="result"></p>
+    <button onclick="showOptimalRoute()">Hiển thị Đường đi Ngắn nhất</button>
+    <button onclick="solveTSP()">Reset</button>
+    <div id="graphContainer"></div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script>
+      let ans = [];
+      let visited = [];
+      let best_cost;
+      let allmin;
+      var result;
+      let nodes = [];
+      let matrix = [];
+      // let currentCostDisplay = document.getElementById('currentCost');
+      // let currentPathDisplay = document.getElementById('currentPath');
+      function firstMin(Arr, numVertex, a) {
+        let min = Infinity;
+        for (let k = 0; k < numVertex; k++) {
+          if (a !== k && Arr[a][k] < min) {
+            min = Arr[a][k];
+          }
+        }
+        return min;
+      }
+
+      function secondMin(Arr, numVertex, a) {
+        let first = Infinity,
+          second = Infinity;
+        for (let j = 0; j < numVertex; j++) {
+          if (a === j) continue;
+          if (Arr[a][j] < first) {
+            second = first;
+            first = Arr[a][j];
+          } else if (Arr[a][j] < second && Arr[a][j] !== first) {
+            second = Arr[a][j];
+          }
+        }
+        return second;
+      }
+
+      function TSPRecursive(Arr, bound, total_cost, level, path, numVertex) {
+        if (level === numVertex) {
+          if (Arr[path[level - 1]][path[0]] !== 0) {
+            let cost = total_cost + Arr[path[level - 1]][path[0]];
+            if (cost < best_cost) {
+              ans = path.slice();
+              ans[numVertex] = path[0];
+              best_cost = cost;
+              //currentCostDisplay.innerText = `Best Cost so far: ${best_cost}`;
+            }
+          }
+          return;
+        }
+
+        for (let i = 0; i < numVertex; i++) {
+          if (Arr[path[level - 1]][i] !== 0 && !visited[i]) {
+            let temp = bound;
+            total_cost += Arr[path[level - 1]][i];
+
+            if (level === 1)
+              bound -=
+                (firstMin(Arr, numVertex, i - 1) +
+                  firstMin(Arr, numVertex, i)) /
+                2;
+            else if (level > 1)
+              bound -=
+                (secondMin(Arr, numVertex, i - 1) +
+                  firstMin(Arr, numVertex, i)) /
+                2;
+            if (numVertex < 16) bound = 0;
+            if (
+              bound + total_cost < best_cost &&
+              total_cost + allmin * (numVertex - i - 1) < best_cost
+            ) {
+              path[level] = i;
+              visited[i] = true;
+              TSPRecursive(Arr, bound, total_cost, level + 1, path, numVertex);
+            }
+
+            total_cost -= Arr[path[level - 1]][i];
+            bound = temp;
+            for (let i = 0; i < numVertex; i++) {
+              visited[i] = 0;
+            }
+            for (let i = 0; i <= level - 1; i++) {
+              visited[path[i]] = 1;
+            }
+          }
+        }
+      }
+
+      function Traveling(Arr, numVertex, Start) {
+        let st = Start.charCodeAt(0) - 65;
+        let path = new Array(numVertex + 1).fill(-1);
+        visited = new Array(numVertex).fill(false);
+        best_cost = Infinity;
+        allmin = Infinity;
+        matrix = Arr;
+
+        for (let i = 0; i < numVertex; i++) {
+          for (let j = 0; j < numVertex; j++) {
+            if (Arr[i][j] !== 0 && Arr[i][j] < allmin) {
+              allmin = Arr[i][j];
+            }
+          }
+        }
+
+        let bound = 0;
+        for (let i = 0; i < numVertex; i++) {
+          bound += firstMin(Arr, numVertex, i) + secondMin(Arr, numVertex, i);
+        }
+        bound = Math.floor(bound / 2);
+
+        visited[st] = true;
+        path[0] = st;
+
+        TSPRecursive(Arr, bound, 0, 1, path, numVertex);
+
+        let answer = "";
+        for (let i = 0; i <= numVertex; i++) {
+          answer += String.fromCharCode(ans[i] + 65);
+          if (i < numVertex) answer += " ";
+        }
+        return answer;
+      }
+
+      function drawGraph(matrix) {
+        const width = 900,
+          height = 900;
+        const svg = d3
+          .select("#graphContainer")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        const numVertex = matrix.length;
+        const radius = 20;
+        const minDistance = 150; // Minimum distance between nodes
+
+        // Function to calculate the distance between two points
+        function distance(x1, y1, x2, y2) {
+          return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+        }
+
+        // Generate nodes with unique positions
+        for (let i = 0; i < numVertex; i++) {
+          let x, y, validPosition;
+          let i = 0;
+          do {
+            x = Math.random() * (width - 2 * radius) + radius;
+            y = Math.random() * (height - 2 * radius) + radius;
+            i++;
+            // Check if the new position is far enough from existing nodes
+            validPosition = nodes.every(
+              (node) => distance(x, y, node.x, node.y) >= minDistance
+            );
+          } while (!validPosition || i > 1000); // Try up to 1000 times to find a valid position
+
+          nodes.push({ id: i, x, y });
+        }
+
+        // Draw the nodes (cities) as circles
+        svg
+          .selectAll(".node")
+          .data(nodes)
+          .enter()
+          .append("circle")
+          .attr("class", "node")
+          .attr("r", radius)
+          .attr("cx", (d) => d.x)
+          .attr("cy", (d) => d.y)
+          .style("fill", "skyblue");
+
+        // Add labels to the nodes
+        svg
+          .selectAll(".label")
+          .data(nodes)
+          .enter()
+          .append("text")
+          .attr("class", "label")
+          .attr("x", (d) => d.x)
+          .attr("y", (d) => d.y)
+          .attr("dy", ".45em")
+          .attr("text-anchor", "middle")
+          .text((_, i) => String.fromCharCode(65 + i)); // Label nodes as A, B, C, etc.
+
+        // Prepare edges between nodes based on the adjacency matrix
+        const edges = [];
+        for (let i = 0; i < numVertex; i++) {
+          for (let j = i + 1; j < numVertex; j++) {
+            if (matrix[i][j] > 0) {
+              edges.push({
+                source: nodes[i],
+                target: nodes[j],
+                weight: matrix[i][j],
+              });
+            }
+          }
+        }
+
+        // Draw the edges between nodes
+        svg
+          .selectAll(".edge")
+          .data(edges)
+          .enter()
+          .append("line")
+          .attr("class", "edge")
+          .attr("x1", (d) => d.source.x)
+          .attr("y1", (d) => d.source.y)
+          .attr("x2", (d) => d.target.x)
+          .attr("y2", (d) => d.target.y)
+          .style("stroke", "gray")
+          .style("stroke-width", 1);
+
+        // Add text to display edge weights, ensuring they don't overlap with nodes
+        svg
+          .selectAll(".weight")
+          .data(edges)
+          .enter()
+          .append("text")
+          .attr("class", "weight")
+          .attr("x", (d) => (d.source.x + d.target.x) / 2)
+          .attr("y", (d) => (d.source.y + d.target.y) / 2)
+          .attr("dy", "-5")
+          .attr("text-anchor", "middle")
+          .style("font-size", "12px")
+          .text((d) => d.weight);
+      }
+      function showOptimalRoute() {
+        if (!result) {
+          document.getElementById("result").innerText =
+            "Vui lòng tính toán đường đi ngắn nhất trước.";
+          return;
+        }
+
+        // Xóa các đường kẻ hiện có và chỉ giữ lại các nút để hiển thị đường đi ngắn nhất
+        d3.select("#graphContainer")
+          .select("svg")
+          .selectAll(".edge, .weight")
+          .remove();
+
+        const pathNodes = result
+          .split(" ")
+          .map((city) => city.charCodeAt(0) - 65); // Chuyển từ 'A', 'B', 'C' sang số ID nút
+        const optimalEdges = [];
+
+        // Lấy thông tin về các cạnh trong đường đi ngắn nhất
+        for (let i = 0; i < pathNodes.length - 1; i++) {
+          const source = nodes[pathNodes[i]];
+          const target = nodes[pathNodes[i + 1]];
+          let weight = matrix[pathNodes[i]][pathNodes[i + 1]];
+          optimalEdges.push({ source, target, weight });
+        }
+
+        // Vẽ đường đi ngắn nhất bằng các đường kẻ màu đỏ
+        const svg = d3.select("#graphContainer").select("svg");
+        svg
+          .selectAll(".optimalEdge")
+          .data(optimalEdges)
+          .enter()
+          .append("line")
+          .attr("class", "optimalEdge")
+          .attr("x1", (d) => d.source.x)
+          .attr("y1", (d) => d.source.y)
+          .attr("x2", (d) => d.target.x)
+          .attr("y2", (d) => d.target.y)
+          .style("stroke", "red")
+          .style("stroke-width", 2);
+
+        svg
+          .selectAll(".weight")
+          .data(optimalEdges)
+          .enter()
+          .append("text")
+          .attr("class", "weight")
+          .attr("x", (d) => (d.source.x + d.target.x) / 2)
+          .attr("y", (d) => (d.source.y + d.target.y) / 2)
+          .attr("dy", "-5")
+          .attr("text-anchor", "middle")
+          .style("font-size", "30px")
+          .text((d) => d.weight);
+      }
+
+      function solveTSP() {
+        const input = document.getElementById("matrixInput").value.trim();
+        const lines = input
+          .split("\n")
+          .map((line) => line.split(" ").map(Number));
+        const startCity = document
+          .getElementById("startCity")
+          .value.toUpperCase();
+        const numVertex = lines.length;
+
+        if (numVertex === 0) {
+          document.getElementById("result").innerText =
+            "Invalid adjacency matrix: must be square.";
+          return;
+        }
+        for (let i = 0; i < numVertex; i++) {
+          if (lines[i][i] != 0) {
+            document.getElementById("result").innerText =
+              "Invalid adjacency matrix: diagonal elements must be zero.";
+            return;
+          }
+        }
+
+        ans = new Array(numVertex + 1).fill(-1);
+        visited = new Array(numVertex).fill(false);
+
+        result = Traveling(lines, numVertex, startCity);
+        document.getElementById(
+          "result"
+        ).innerText = `Best Path: ${result}, Cost: ${best_cost}`;
+
+        // Clear previous graph and draw new one
+        d3.select("#graphContainer").selectAll("*").remove();
+        drawGraph(lines);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Quiz</title>
+    <!-- Import CSS đã có sẵn -->
+    <link rel="stylesheet" href="Creating.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li><a href="../Home/index.html">Home</a></li>
+        <li><a href="Creating.html">Create Quiz</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </nav>
+
+    <!-- Phần form tạo câu hỏi -->
+    <div class="form-container" id="create-quiz-section">
+      <h1>Create Your Quiz</h1>
+      <form id="question-form">
+        <div class="form-group">
+          <label for="question-text">Question:</label>
+          <input
+            type="text"
+            id="question-text"
+            placeholder="Enter your question"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="choice-A">Choice A:</label>
+          <input
+            type="text"
+            id="choice-A"
+            placeholder="Enter choice A"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="choice-B">Choice B:</label>
+          <input
+            type="text"
+            id="choice-B"
+            placeholder="Enter choice B"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="choice-C">Choice C:</label>
+          <input
+            type="text"
+            id="choice-C"
+            placeholder="Enter choice C"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="choice-D">Choice D:</label>
+          <input
+            type="text"
+            id="choice-D"
+            placeholder="Enter choice D"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="correct-answer">Correct Answer:</label>
+          <select id="correct-answer">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Add Question</button>
+      </form>
+      <button id="finish-quiz" class="btn-submit">
+        Finish and Choose Mode
+      </button>
+
+      <!-- Container hiển thị danh sách câu hỏi đã tạo -->
+      <div id="questions-list">
+        <h2>Added Questions:</h2>
+        <!-- Các câu hỏi sẽ được thêm vào đây -->
+      </div>
+    </div>
+
+    <!-- Giao diện chọn mode (ẩn ban đầu) -->
+    <div
+      class="form-container mode-selection"
+      id="mode-selection"
+      style="display: none"
+    >
+      <h2>Select Mode to Play</h2>
+      <button class="submit-btn">
+        <a href="game.html" class="btn">Fast Mode</a>
+      </button>
+      <button class="submit-btn">
+        <a href="game1.html" class="btn">Test Mode</a>
+      </button>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; 2024 Quiz Game. All rights reserved.</p>
+    </footer>
+  </body>
+  <script src="Creating.js"></script>
+</html>
