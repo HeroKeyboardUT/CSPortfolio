@@ -18,7 +18,7 @@ body {
   flex-direction: column;
 
   backdrop-filter: blur(3px);
-  background-image: url("../image/cyber.png");
+  background-image: url("./image/cyber.png");
   background-size: cover;
   background-clip: border-box;
 }
