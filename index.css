@@ -262,6 +262,14 @@ nav a.active {
   color: #6e6ec8;
 }
 
+.project__side__item a {
+  display: flex;
+  flex-direction: column;
+  border-left: 0.2rem solid #a7a7a9;
+  margin-left: 1rem;
+  padding: 2px;
+}
+
 /* ===== SKILLS SECTION STYLES ===== */
 .skills-container {
   margin-top: 2rem;
