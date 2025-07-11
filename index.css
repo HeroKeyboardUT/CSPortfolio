@@ -270,6 +270,10 @@ nav a.active {
   padding: 2px;
 }
 
+.project__side__item__report__link {
+  align-self: center;
+}
+
 /* ===== SKILLS SECTION STYLES ===== */
 .skills-container {
   margin-top: 2rem;
@@ -453,6 +457,7 @@ nav a.active {
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
   margin-top: 4rem;
   padding: 2rem;
+  width: 100%;
 }
 
 .footer__content {
@@ -650,6 +655,10 @@ nav a.active {
     font-size: 1.5rem;
   }
 
+  .header {
+    width: 100%;
+  }
+
   .nav {
     font-size: 1rem;
   }
@@ -657,7 +666,7 @@ nav a.active {
   .hero {
     padding: 1rem;
     margin-bottom: 3rem;
-    width: 90%;
+    width: 100%;
   }
 
   .hero__pic {
@@ -679,7 +688,7 @@ nav a.active {
 
   .project {
     padding: 1.5rem;
-    width: 90%;
+    width: 100%;
   }
 
   .project__side h2,
