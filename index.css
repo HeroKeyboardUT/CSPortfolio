@@ -523,11 +523,14 @@ nav a.active {
     width: 90%;
     flex-direction: column;
     height: auto;
+    padding: 1rem;
   }
 
   .header h1 {
     border-bottom: 0.2rem solid #a7a7a9;
     border-right: 0.2rem solid #a7a7a9;
+    margin-left: 0;
+    text-align: center;
   }
 
   .nav {
@@ -536,16 +539,18 @@ nav a.active {
     justify-content: center;
     border-top: none;
     flex-wrap: wrap;
+    padding: 1rem 0;
   }
 
   .nav__item {
-    margin: 0 1rem;
+    margin: 0.5rem 1rem;
   }
 
   .hero {
     flex-direction: column;
     gap: 2rem;
-    width: 85%;
+    width: 90%;
+    padding: 2rem 1rem;
   }
 
   .hero__pic {
@@ -555,24 +560,25 @@ nav a.active {
 
   .hero__pic img {
     margin-left: 0;
+    border-radius: 10px;
   }
 
   .hero__content {
     width: 100%;
     margin-left: 0;
     border-left: none;
-    align-items: LEFT;
+    align-items: left;
   }
 
   .hero__content h2,
   .hero__content h3,
   .hero__content p {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .hero__content__list {
-    margin-left: 0;
+    margin-left: 1rem;
     padding-top: 1rem;
   }
 
@@ -594,12 +600,14 @@ nav a.active {
   }
 
   .hero__content p {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
   }
 
   .project {
     flex-direction: column;
     align-items: stretch;
+    width: 90%;
   }
 
   .project__side {
@@ -617,7 +625,8 @@ nav a.active {
   }
 
   .project__side__item p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
   }
 }
 
@@ -625,86 +634,372 @@ nav a.active {
 @media screen and (max-width: 768px) {
   .header {
     width: 95%;
+    margin-top: 1rem;
+    padding: 0.8rem;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
   }
 
   .nav {
-    padding: 0.5rem;
+    padding: 0.8rem 0;
+    font-size: 1.1rem;
   }
 
   .nav__item {
-    margin: 0.5rem;
+    margin: 0.3rem 0.8rem;
+  }
+
+  .hero {
+    width: 95%;
+    padding: 1.5rem 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .hero__content h2 {
+    font-size: 1.6rem;
+  }
+
+  .hero__content h3 {
+    font-size: 1.8rem;
+  }
+
+  .hero__content p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .hero__content li {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project {
+    width: 95%;
+    padding: 1.5rem 1rem;
+  }
+
+  .project__side__item {
+    margin-bottom: 2.5rem;
+    padding-left: 1.2rem;
   }
 
   .project__side__item h3 {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 0.8rem;
   }
 
   .project__side__item p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+  }
+
+  .project__side__item h4 {
     font-size: 0.85rem;
+    color: #a7a7a9;
+    margin-top: 1rem;
+  }
+
+  .project__side__item__link {
+    font-size: 0.8rem;
+    word-break: break-all;
+    color: #6e6ec8;
+  }
+
+  .skills-container h2,
+  .education-section h2,
+  .project__introduction h2 {
+    font-size: 1.6rem;
+  }
+
+  .skill-category h3,
+  .education-item h3 {
+    font-size: 1.1rem;
+  }
+
+  .skill-description,
+  .education-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
 
   .footer__content {
     flex-direction: column;
     gap: 2rem;
+    width: 90%;
+  }
+
+  .footer {
+    padding: 1.5rem 1rem;
   }
 }
 
 /* Very small screens (600px and below) */
 @media screen and (max-width: 600px) {
-  .header h1 {
-    font-size: 1.5rem;
+  body {
+    padding: 0 0.5rem;
   }
 
   .header {
     width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border-left: none;
+    border-right: none;
+    border-top: 0.2rem solid #a7a7a9;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+    margin-left: 0;
+    padding-right: 0;
+    border-right: none;
+    text-align: center;
   }
 
   .nav {
     font-size: 1rem;
+    padding: 0.5rem 0;
+    gap: 0.5rem;
+  }
+
+  .nav__item {
+    margin: 0.2rem 0.5rem;
+  }
+
+  .nav a {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    display: block;
   }
 
   .hero {
-    padding: 1rem;
-    margin-bottom: 3rem;
+    padding: 1rem 0.5rem;
+    margin-bottom: 2rem;
     width: 100%;
+    border-left: none;
+    border-right: none;
   }
 
   .hero__pic {
     width: 100%;
   }
 
+  .hero__pic img {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .hero__content {
+    padding: 0 0.5rem;
+  }
+
   .hero__content h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    text-align: center;
+    padding-left: 0;
   }
 
   .hero__content h3 {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
+    text-align: center;
+    padding-left: 0;
   }
 
-  .hero__content p,
-  .hero__content li {
+  .hero__content p {
     font-size: 1rem;
+    padding-left: 0;
+    text-align: justify;
+  }
+
+  .hero__content__list {
+    margin-left: 0;
+  }
+
+  .hero__content__item {
+    margin-left: 0.5rem;
+    padding-left: 1rem;
+  }
+
+  .hero__content li {
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
   }
 
   .project {
-    padding: 1.5rem;
+    padding: 1rem 0.5rem;
     width: 100%;
+    border-left: none;
+    border-right: none;
   }
 
   .project__side h2,
   .project__introduction h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 1rem;
   }
 
   .project__side__item {
-    padding-left: 1rem;
+    padding-left: 0.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .project__side__item h3 {
+    font-size: 0.9rem;
+    line-height: 1.3;
   }
 
   .project__side__item__content {
-    margin-left: 0.5rem;
+    margin-left: 0.3rem;
+    padding-left: 0.8rem;
+  }
+
+  .project__side__item p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0.3rem 0;
+  }
+
+  .project__side__item h4 {
+    font-size: 0.8rem;
+    margin-top: 0.8rem;
+  }
+
+  .project__side__item__link {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+    background: rgba(110, 110, 200, 0.1);
+    border-radius: 4px;
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  .project__introduction {
+    padding-left: 0.5rem;
+  }
+
+  .project__introduction p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    padding-left: 0;
+  }
+
+  .skills-container,
+  .education-section {
+    margin-top: 1.5rem;
+  }
+
+  .skills-container h2,
+  .education-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .skill-category,
+  .education-item {
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .skill-category h3,
+  .education-item h3 {
+    font-size: 1rem;
+    margin-left: -0.3rem;
+  }
+
+  .skill-description,
+  .education-description {
+    font-size: 0.9rem;
+    padding-left: 0.5rem;
+  }
+
+  .education-date,
+  .education-gpa {
+    font-size: 0.85rem;
+    padding: 0.8rem;
   }
 
   .matrix-text {
-    font-size: 40px;
+    font-size: 32px;
+  }
+
+  .footer {
+    padding: 1rem 0.5rem;
+    margin-top: 2rem;
+  }
+
+  .footer__content {
+    width: 100%;
+    gap: 1.5rem;
+  }
+
+  .footer__section h3 {
+    font-size: 1.1rem;
+  }
+
+  .footer__section p {
+    font-size: 0.9rem;
+  }
+
+  .social-links {
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+
+  .contact-cta {
+    margin-top: 1.5rem;
+    padding: 1rem;
+  }
+
+  .cta-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Extra small screens (480px and below) */
+@media screen and (max-width: 480px) {
+  .header h1 {
+    font-size: 1.3rem;
+  }
+
+  .nav {
+    font-size: 0.9rem;
+  }
+
+  .hero__content h2 {
+    font-size: 1.2rem;
+  }
+
+  .hero__content h3 {
+    font-size: 1.4rem;
+  }
+
+  .hero__content p,
+  .hero__content li {
+    font-size: 0.85rem;
+  }
+
+  .project__side h2,
+  .project__introduction h2 {
+    font-size: 1.2rem;
+  }
+
+  .matrix-text {
+    font-size: 28px;
+  }
+
+  .project__side__item h3 {
+    font-size: 0.85rem;
+  }
+
+  .project__side__item p {
+    font-size: 0.8rem;
   }
 }
